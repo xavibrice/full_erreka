@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Agent index{% endblock %}
+
+{% block body %}
+    <h1>Agent index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre usuario</th>
+                <th>Roles</th>
+                <th>Contraseña</th>
+                <th>Nombre completo</th>
+                <th>Correo</th>
+                <th>Foto</th>
+                <th>Color</th>
+                <th>Creado</th>
+                <th>Actualizado</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for agent in agents %}
+            <tr>
+                <td>{{ agent.id }}</td>
+                <td>{{ agent.username }}</td>
+                <td>{{ agent.roles ? agent.roles|json_encode : '' }}</td>
+                <td>{{ agent.password }}</td>
+                <td>{{ agent.fullName }}</td>
+                <td>{{ agent.email }}</td>
+                <td>{{ agent.thumbnail }}</td>
+                <td>{{ agent.color }}</td>
+                <td>{{ agent.createdAt ? agent.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ agent.updatedAt ? agent.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('agent_show', {'id': agent.id}) }}">Ver</a>
+                    <a href="{{ path('agent_edit', {'id': agent.id}) }}">Editar</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('agent_new') }}">Crear agente</a>
+{% endblock %}

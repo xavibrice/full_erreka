@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Editar Agente{% endblock %}
+
+{% block body %}
+    <h1>Editar Agente</h1>
+
+    {{ include('admin/agent/_form.html.twig', {'button_label': 'Actualizar'}) }}
+
+    <a href="{{ path('agent_index') }}">Volver a la lista</a>
+
+    {{ include('admin/agent/_delete_form.html.twig') }}
+{% endblock %}
