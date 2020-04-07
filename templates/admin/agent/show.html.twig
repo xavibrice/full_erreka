@@ -1,58 +1,100 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/layout.html.twig' %}
 
-{% block title %}Agente{% endblock %}
+{% block title %}Ver Agente{% endblock %}
 
-{% block body %}
-    <h1>Agente</h1>
+{% block content_header %}
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Agencia</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {{ include('admin/agent/_delete_form.html.twig') }}
+                    {% endif %}
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ agent.id }}</td>
-            </tr>
-            <tr>
-                <th>Username</th>
-                <td>{{ agent.username }}</td>
-            </tr>
-            <tr>
-                <th>Roles</th>
-                <td>{{ agent.roles ? agent.roles|json_encode : '' }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ agent.password }}</td>
-            </tr>
-            <tr>
-                <th>Full_name</th>
-                <td>{{ agent.fullName }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ agent.email }}</td>
-            </tr>
-            <tr>
-                <th>Thumbnail</th>
-                <td>{{ agent.thumbnail }}</td>
-            </tr>
-            <tr>
-                <th>Color</th>
-                <td>{{ agent.color }}</td>
-            </tr>
-            <tr>
-                <th>Created_at</th>
-                <td>{{ agent.createdAt ? agent.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Updated_at</th>
-                <td>{{ agent.updatedAt ? agent.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block content %}
 
-    <a href="{{ path('agent_index') }}">Volver a la lista</a>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+                    <div class="text-center">
+{#                        <img class="profile-user-img img-fluid img-circle" src="{{ vich_uploader_asset(agent, 'thumbnailFile') }}" alt="{{ agent.thumbnail }}">#}
+                    </div>
 
-    <a href="{{ path('agent_edit', {'id': agent.id}) }}">Editar</a>
+                    <h3 class="profile-username text-center">{{ agent.fullName }}</h3>
 
-    {{ include('admin/agent/_delete_form.html.twig') }}
+                    <p class="text-muted text-center">{{ agent.username }}</p>
+
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>Visitas</b> <a class="float-right">0</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Following</b> <a class="float-right">543</a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Friends</b> <a class="float-right">13,287</a>
+                        </li>
+                    </ul>
+
+                    <div class="btn-group">
+                        <a class="btn btn-link" href="{{ path('agent_index') }}">Volver a la lista</a>
+                        <a class="btn btn-info" href="{{ path('agent_edit', {'id': agent.id}) }}">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Sobre {{ agent.fullName }}</h3>
+                </div>
+                <div class="card-body">
+                    <strong><i class="fas fa-book mr-1"></i> Información</strong>
+
+                    <p class="text-muted">
+                        <b>Correo: </b>{{ agent.email }}
+                    </p>
+
+                    <hr>
+
+                    <strong><i class="fas fa-map-marker-alt mr-1"></i> Agencia</strong>
+
+                    <p class="text-muted">aaa</p>
+
+                    <hr>
+
+                    <strong><i class="fas fa-pencil-alt mr-1"></i> Otros</strong>
+
+                    <ul class="list-group list-group-unbordered mb-3 text-muted">
+                        <li class="list-group-item">
+                            <b>Habilitado</b> <span>{{ agent.enabled ? 'Si' : 'No' }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Creado: </b> <span>{{ agent.createdAt ? agent.createdAt|date('d-m-Y') : '' }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Actualizado: </b> <span>{{ agent.updatedAt ? agent.updatedAt|date('d-m-Y') : '' }}</span>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Color</b> <span style="background-color: {{ agent.color }}">{{ agent.color }}</span>
+                        </li>
+                    </ul>
+
+                    <strong><i class="far fa-file-alt mr-1"></i> Contenido</strong>
+
+                    <p class="text-muted">no hay contenido</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

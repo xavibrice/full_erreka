@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Agent;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -15,12 +16,14 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @method Agent[]    findAll()
  * @method Agent[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class AgentRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
+class AgentRepository extends ServiceEntityRepository implements PasswordUpgraderInterface, UserLoaderInterface
 {
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Agent::class);
     }
+
+
 
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
@@ -64,4 +67,17 @@ class AgentRepository extends ServiceEntityRepository implements PasswordUpgrade
         ;
     }
     */
+    /**
+     * @inheritDoc
+     */
+    public function loadUserByUsername(string $username)
+    {
+        return $this->createQueryBuilder('a')
+            ->where('a.username = :username OR a.email = :email')
+            ->setParameter('username', $username)
+            ->setParameter('email', $username)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
 }

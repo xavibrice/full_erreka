@@ -1,11 +1,30 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin/layout.html.twig' %}
 
 {% block title %}Nuevo Agente{% endblock %}
 
-{% block body %}
-    <h1>Crear nuevo Agente</h1>
+{% block content_header %}
+    <div class="row mb-2">
+        <div class="col-xl-12">
+            <h1 class="m-0 text-dark">Agente</h1>
+        </div>
+    </div>
+{% endblock %}
 
-    {{ include('admin/agent/_form.html.twig') }}
 
-    <a href="{{ path('agent_index') }}">Volver a la lista</a>
+{% block content %}
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-8">
+            <div class="card card-primary card-outline card-columns">
+                <div class="card-header">
+                    <h3 class="card-title">Crear agente</h3>
+                </div>
+                <div class="card-body">
+                    {{ include('admin/agent/_form.html.twig') }}
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-link" href="{{ path('agent_index') }}">Volver a la lista</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
