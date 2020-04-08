@@ -47,7 +47,7 @@
 
                     <div class="btn-group">
                         <a class="btn btn-link" href="{{ path('agent_index') }}">Volver a la lista</a>
-                        <a class="btn btn-info" href="{{ path('agent_edit', {'id': agent.id}) }}">Editar</a>
+                        <a class="btn btn-info" href="{{ path('agent_edit', {'slug': agent.slug}) }}">Editar</a>
                     </div>
                 </div>
             </div>
@@ -89,9 +89,8 @@
                         </li>
                     </ul>
 
-                    <strong><i class="far fa-file-alt mr-1"></i> Contenido</strong>
-
-                    <p class="text-muted">no hay contenido</p>
+{#                    <strong><i class="far fa-file-alt mr-1"></i> Contenido</strong>#}
+{#                    <p class="text-muted">no hay contenido</p>#}
                 </div>
             </div>
         </div>

@@ -6,12 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\AgentRepository")
  * @UniqueEntity(fields={"username"}, message="Ya hay una cuenta con este nombre de usuario")
  * @UniqueEntity(fields={"email"}, message="Ya hay una cuenta con este correo")
  * @UniqueEntity(fields={"color"}, message="Ya hay una cuenta con este color")
+ * @Vich\Uploadable()
  */
 class Agent implements UserInterface
 {
@@ -24,8 +27,21 @@ class Agent implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
+     * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your username must be at least {{ limit }} characters long",
+     *      maxMessage = "Your username cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
+     * @Assert\NotBlank()
      */
     private $username;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $slug;
 
     /**
      * @ORM\Column(type="json")
@@ -40,19 +56,37 @@ class Agent implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
+     *      * @Assert\Length(
+     *      min = 2,
+     *      max = 50,
+     *      minMessage = "Your full name must be at least {{ limit }} characters long",
+     *      maxMessage = "Your full name cannot be longer than {{ limit }} characters",
+     *      allowEmptyString = false
+     * )
      */
     private $full_name;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Assert\Email()
+     * @Assert\NotBlank()
      */
     private $email;
 
     /**
+     * @Vich\UploadableField(mapping="agent_thumbnail", fileNameProperty="thumbnail_name", size="thumbnail_size")
+     */
+    private $thumbnailFile;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $thumbnail;
+    private $thumbnail_name;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $thumbnail_size;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)
@@ -65,7 +99,7 @@ class Agent implements UserInterface
     private $created_at;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $updated_at;
 
@@ -172,14 +206,40 @@ class Agent implements UserInterface
         return $this;
     }
 
-    public function getThumbnail(): ?string
+    public function getThumbnailFile(): ?File
     {
-        return $this->thumbnail;
+        return $this->thumbnailFile;
     }
 
-    public function setThumbnail(?string $thumbnail): self
+    public function setThumbnailFile(?File $thumbnailFile = null): void
     {
-        $this->thumbnail = $thumbnail;
+        $this->thumbnailFile = $thumbnailFile;
+
+        if (null !== $thumbnailFile) {
+            $this->updated_at = new \DateTime();
+        }
+    }
+
+    public function getThumbnailName(): ?string
+    {
+        return $this->thumbnail_name;
+    }
+
+    public function setThumbnailName(?string $thumbnail_name): self
+    {
+        $this->thumbnail_name = $thumbnail_name;
+
+        return $this;
+    }
+
+    public function getThumbnailSize(): ?int
+    {
+        return $this->thumbnail_size;
+    }
+
+    public function setThumbnailSize(?int $thumbnail_size): self
+    {
+        $this->thumbnail_size = $thumbnail_size;
 
         return $this;
     }
@@ -228,6 +288,18 @@ class Agent implements UserInterface
     public function setEnabled(bool $enabled): self
     {
         $this->enabled = $enabled;
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): self
+    {
+        $this->slug = $slug;
 
         return $this;
     }

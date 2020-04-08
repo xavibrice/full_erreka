@@ -31,7 +31,6 @@
                                 <th>Id</th>
                                 <th>Nombre usuario</th>
                                 <th>Roles</th>
-                                <th>Contraseña</th>
                                 <th>Nombre completo</th>
                                 <th>Correo</th>
                                 <th>Foto</th>
@@ -47,17 +46,20 @@
                                 <td>{{ agent.id }}</td>
                                 <td>{{ agent.username }}</td>
                                 <td>{{ agent.roles ? agent.roles|json_encode : '' }}</td>
-                                <td>{{ agent.password }}</td>
                                 <td>{{ agent.fullName }}</td>
                                 <td>{{ agent.email }}</td>
-                                <td>{{ agent.thumbnail }}</td>
+                                <td>
+                                    {% if agent.thumbnailName %}
+                                        <img class="img-size-50" src="{{ vich_uploader_asset(agent, 'thumbnailFile') }}" alt="{{ agent.thumbnailName }}">
+                                    {% endif %}
+                                </td>
                                 <td>{{ agent.color }}</td>
                                 <td>{{ agent.createdAt ? agent.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                                 <td>{{ agent.updatedAt ? agent.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                                 <td>
                                     <div class="btn-group">
-                                        <a class="btn btn-secondary" href="{{ path('agent_show', {'id': agent.id}) }}">Ver</a>
-                                        <a class="btn btn-info" href="{{ path('agent_edit', {'id': agent.id}) }}">Editar</a>
+                                        <a class="btn btn-secondary" href="{{ path('agent_show', {'slug': agent.slug}) }}">Ver</a>
+                                        <a class="btn btn-info" href="{{ path('agent_edit', {'slug': agent.slug}) }}">Editar</a>
                                     </div>
                                 </td>
                             </tr>

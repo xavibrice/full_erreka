@@ -14,6 +14,7 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotNull;
+use Vich\UploaderBundle\Form\Type\VichFileType;
 
 class AgentType extends AbstractType
 {
@@ -65,7 +66,14 @@ class AgentType extends AbstractType
                 'expanded' => true,
                 'multiple' => true,
             ])
-            ->add('thumbnail')
+            ->add('thumbnailFile', VichFileType::class, [
+                'label' => 'Foto',
+                'mapped' => true,
+                'required' => false,
+                'attr' => [
+                    'placeholder' => 'Selecciona una imagen'
+                ],
+            ])
             ->add('color', ColorType::class, [
                 'label' => 'Color',
             ])

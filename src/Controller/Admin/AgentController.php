@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 /**
  * @Route("/admin/agente")
@@ -17,10 +18,12 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class AgentController extends AbstractController
 {
     private $passwordEncoder;
+    private $slugger;
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder)
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, SluggerInterface $slugger)
     {
         $this->passwordEncoder = $passwordEncoder;
+        $this->slugger = $slugger;
     }
 
     /**
@@ -34,18 +37,18 @@ class AgentController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="agent_new", methods={"GET","POST"})
+     * @Route("/nuevo", name="agent_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
         $agent = new Agent();
         $agent->setEnabled(true);
         $agent->setCreatedAt(new \DateTime());
-        $agent->setUpdatedAt(new \DateTime());
         $form = $this->createForm(AgentType::class, $agent);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $agent->setSlug($this->slugger->slug($agent->getUsername())->lower());
             $agent->setPassword($this->passwordEncoder->encodePassword($agent, $form->get('plainPassword')->getData()));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($agent);
@@ -61,7 +64,7 @@ class AgentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="agent_show", methods={"GET"})
+     * @Route("/{slug}", name="agent_show", methods={"GET"})
      */
     public function show(Agent $agent): Response
     {
@@ -71,7 +74,7 @@ class AgentController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="agent_edit", methods={"GET","POST"})
+     * @Route("/{slug}/editar", name="agent_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Agent $agent): Response
     {
@@ -79,7 +82,12 @@ class AgentController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            if (!empty(trim($form->get('plainPassword')->getData()))) {
+                $agent->setPassword($this->passwordEncoder->encodePassword($agent, $form->get('plainPassword')->getData()));
+            }
+            $agent->setSlug($this->slugger->slug($agent->getUsername())->lower());
             $this->getDoctrine()->getManager()->flush();
+            $this->addFlash('success', 'Agente editado correctamente.');
 
             return $this->redirectToRoute('agent_index');
         }
