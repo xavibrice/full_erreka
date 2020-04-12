@@ -24,7 +24,8 @@ Encore
      * Each entry will result in one JavaScript file (e.g. app.js)
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
-    .addEntry('app', './assets/js/app.js')
+    .addEntry('backend', './assets/backend/js/app.js')
+    .addEntry('fronted', './assets/fronted/js/main.js')
     //.addEntry('page1', './assets/js/page1.js')
     //.addEntry('page2', './assets/js/page2.js')
 
@@ -67,7 +68,8 @@ Encore
     // uncomment if you're having problems with a jQuery plugin
     .autoProvidejQuery()
     .addPlugin(new CopyPlugin([
-        { from: './assets/static', to: 'static' }
+        { from: './assets/backend/img', to: 'static_backend' },
+        { from: './assets/fronted/img', to: 'static_fronted' },
     ]))
     // uncomment if you use API Platform Admin (composer req api-admin)
     //.enableReactPreset()
