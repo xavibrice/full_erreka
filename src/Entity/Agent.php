@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -107,6 +109,22 @@ class Agent implements UserInterface
      * @ORM\Column(type="boolean")
      */
     private $enabled;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Client", mappedBy="agent")
+     */
+    private $clients;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Owner", mappedBy="agent")
+     */
+    private $owners;
+
+    public function __construct()
+    {
+        $this->clients = new ArrayCollection();
+        $this->owners = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -303,4 +321,67 @@ class Agent implements UserInterface
 
         return $this;
     }
+
+    /**
+     * @return Collection|Client[]
+     */
+    public function getClients(): Collection
+    {
+        return $this->clients;
+    }
+
+    public function addClient(Client $client): self
+    {
+        if (!$this->clients->contains($client)) {
+            $this->clients[] = $client;
+            $client->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeClient(Client $client): self
+    {
+        if ($this->clients->contains($client)) {
+            $this->clients->removeElement($client);
+            // set the owning side to null (unless already changed)
+            if ($client->getAgent() === $this) {
+                $client->setAgent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Owner[]
+     */
+    public function getOwners(): Collection
+    {
+        return $this->owners;
+    }
+
+    public function addOwner(Owner $owner): self
+    {
+        if (!$this->owners->contains($owner)) {
+            $this->owners[] = $owner;
+            $owner->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOwner(Owner $owner): self
+    {
+        if ($this->owners->contains($owner)) {
+            $this->owners->removeElement($owner);
+            // set the owning side to null (unless already changed)
+            if ($owner->getAgent() === $this) {
+                $owner->setAgent(null);
+            }
+        }
+
+        return $this;
+    }
+
 }
