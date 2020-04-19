@@ -32,7 +32,7 @@ class AgentController extends AbstractController
     public function index(AgentRepository $agentRepository): Response
     {
         return $this->render('backend/agent/index.html.twig', [
-            'agents' => $agentRepository->findAll(),
+            'agents' => $agentRepository->findBy([], ['id' => 'DESC']),
         ]);
     }
 

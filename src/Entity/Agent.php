@@ -384,4 +384,8 @@ class Agent implements UserInterface
         return $this;
     }
 
+    public function __toString()
+    {
+        return (string)$this->full_name;
+    }
 }
