@@ -120,6 +120,11 @@ class Agent implements UserInterface
      */
     private $owners;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Agency", inversedBy="agent")
+     */
+    private $agency;
+
     public function __construct()
     {
         $this->clients = new ArrayCollection();
@@ -387,5 +392,17 @@ class Agent implements UserInterface
     public function __toString()
     {
         return (string)$this->full_name;
+    }
+
+    public function getAgency(): ?Agency
+    {
+        return $this->agency;
+    }
+
+    public function setAgency(?Agency $agency): self
+    {
+        $this->agency = $agency;
+
+        return $this;
     }
 }
