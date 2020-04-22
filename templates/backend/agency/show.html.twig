@@ -1,0 +1,74 @@
+{% extends 'backend/layout.html.twig' %}
+
+{% block title %}Ver Agencia{% endblock %}
+
+{% block content_header %}
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Agencia</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item">
+                    {% if is_granted('ROLE_ADMIN') %}
+                        {{ include('backend/agency/_delete_form.html.twig') }}
+                    {% endif %}
+                </li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card card-primary card-outline">
+                <div class="card-body box-profile">
+                    <div class="text-center">
+                        {#                        <img class="profile-user-img img-fluid img-circle" src="{{ vich_uploader_asset(agent, 'thumbnailFile') }}" alt="{{ agent.thumbnail }}">#}
+                    </div>
+
+                    <h3 class="profile-username text-center">{{ agency.name }}</h3>
+
+                    <p class="text-muted text-center">{{ agency.name }}</p>
+
+                    <ul class="list-group list-group-unbordered mb-3">
+                        <li class="list-group-item">
+                            <b>Agentes</b> <a class="float-right"> {{ agency.agent.count }} </a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Clientes</b> <a class="float-right"> {{ agency.agent.count }} </a>
+                        </li>
+                    </ul>
+
+                    <div class="btn-group">
+                        <a class="btn btn-link" href="{{ path('agency_index') }}">Volver a la lista</a>
+                        <a class="btn btn-info" href="{{ path('agency_edit', {'slug': agency.slug}) }}">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card card-primary">
+                <div class="card-header">
+                    <h3 class="card-title">Sobre {{ agency.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <strong><i class="fas fa-book mr-1"></i> Información</strong>
+
+                    <p class="text-muted">
+                        <b>Correo: </b>{{ agency.name }}
+                    </p>
+
+                    <hr>
+
+                    <strong><i class="fas fa-map-marker-alt mr-1"></i> Agencia</strong>
+
+                    <p class="text-muted">aaa</p>
+
+                    <hr>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
