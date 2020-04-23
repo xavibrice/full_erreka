@@ -23,11 +23,12 @@
                 <div class="card-header">
                     <h3 class="card-title">Listado Agentes</h3>
                 </div>
-                <div class="card-body table-responsive">
+                <div class="card-body table-responsive table-sm">
                     <table class="table table-striped ">
                         <thead>
                             <tr>
                                 <th>Id</th>
+                                <th>Agencia</th>
                                 <th>Nombre usuario</th>
                                 <th>Roles</th>
                                 <th>Nombre completo</th>
@@ -43,6 +44,7 @@
                         {% for agent in agents %}
                             <tr>
                                 <td>{{ agent.id }}</td>
+                                <td>{{ agent.agency.name }}</td>
                                 <td>{{ agent.username }}</td>
                                 <td>{{ agent.roles ? agent.roles|json_encode : '' }}</td>
                                 <td>{{ agent.fullName }}</td>
