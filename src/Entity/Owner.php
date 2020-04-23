@@ -43,6 +43,16 @@ class Owner
      */
     private $agent;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Property", mappedBy="owner")
+     */
+    private $properties;
+
+    public function __construct()
+    {
+        $this->properties = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +114,37 @@ class Owner
     public function setAgent(?Agent $agent): self
     {
         $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Property[]
+     */
+    public function getProperties(): Collection
+    {
+        return $this->properties;
+    }
+
+    public function addProperty(Property $property): self
+    {
+        if (!$this->properties->contains($property)) {
+            $this->properties[] = $property;
+            $property->setOwner($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProperty(Property $property): self
+    {
+        if ($this->properties->contains($property)) {
+            $this->properties->removeElement($property);
+            // set the owning side to null (unless already changed)
+            if ($property->getOwner() === $this) {
+                $property->setOwner(null);
+            }
+        }
 
         return $this;
     }

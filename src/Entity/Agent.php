@@ -125,10 +125,16 @@ class Agent implements UserInterface
      */
     private $agency;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Property", mappedBy="agent")
+     */
+    private $properties;
+
     public function __construct()
     {
         $this->clients = new ArrayCollection();
         $this->owners = new ArrayCollection();
+        $this->properties = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -402,6 +408,37 @@ class Agent implements UserInterface
     public function setAgency(?Agency $agency): self
     {
         $this->agency = $agency;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Property[]
+     */
+    public function getProperties(): Collection
+    {
+        return $this->properties;
+    }
+
+    public function addProperty(Property $property): self
+    {
+        if (!$this->properties->contains($property)) {
+            $this->properties[] = $property;
+            $property->setAgent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProperty(Property $property): self
+    {
+        if ($this->properties->contains($property)) {
+            $this->properties->removeElement($property);
+            // set the owning side to null (unless already changed)
+            if ($property->getAgent() === $this) {
+                $property->setAgent(null);
+            }
+        }
 
         return $this;
     }

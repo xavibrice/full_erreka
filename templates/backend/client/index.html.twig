@@ -28,6 +28,7 @@
                         <thead>
                         <tr>
                             <th>Id</th>
+                            <th>Agencia</th>
                             <th>Nombre completo</th>
                             <th>Correo</th>
                             <th>Móvil</th>
@@ -39,6 +40,7 @@
                         {% for client in clients %}
                             <tr>
                                 <td>{{ client.id }}</td>
+                                <td>{{ client.agent.agency.name }}</td>
                                 <td>{{ client.fullName }}</td>
                                 <td>{{ client.email }}</td>
                                 <td>{{ client.mobile }}</td>
