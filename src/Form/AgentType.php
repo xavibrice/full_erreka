@@ -2,7 +2,9 @@
 
 namespace App\Form;
 
+use App\Entity\Agency;
 use App\Entity\Agent;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\ColorType;
@@ -38,6 +40,11 @@ class AgentType extends AbstractType
         }
 
         $builder
+            ->add('agency', EntityType::class, [
+                'label' => 'Agencia',
+                'class' => Agency::class,
+                'placeholder' => 'Selecciona agencia',
+            ])
             ->add('fullName', TextType::class, [
                 'label' => 'Nombre completo',
             ])
