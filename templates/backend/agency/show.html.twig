@@ -11,7 +11,11 @@
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     {% if is_granted('ROLE_ADMIN') %}
-                        {{ include('backend/agency/_delete_form.html.twig') }}
+                        {% if agency.agent.count > 0 %}
+                            <span class="bg-info alert">En uso</span>
+                            {% else %}
+                                {{ include('backend/agency/_delete_form.html.twig') }}
+                        {% endif %}
                     {% endif %}
                 </li>
             </ol>
@@ -34,10 +38,30 @@
 
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>Agentes</b> <a class="float-right"> {{ agency.agent.count }} </a>
+                            <b>Agentes</b>
+                            <a class="float-right">
+                                {{ agency.agent.count }}
+                            </a>
                         </li>
                         <li class="list-group-item">
-                            <b>Clientes</b> <a class="float-right"> {{ agency.agent.count }} </a>
+                            <b>Clientes</b>
+                            <a class="float-right">
+                                {% set sumClients = 0 %}
+                                {% for agent in agency.agent %}
+                                    {% set sumClients = sumClients + agent.clients.count %}
+                                {% endfor %}
+                                {{ sumClients }}
+                            </a>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Propietarios</b>
+                            <a class="float-right">
+                                {% set sumOwners = 0 %}
+                                {% for agent in agency.agent %}
+                                    {% set sumOwners = sumOwners + agent.owners.count %}
+                                {% endfor %}
+                                {{ sumOwners }}
+                            </a>
                         </li>
                     </ul>
 
