@@ -140,4 +140,9 @@ class Property
         return $this;
     }
 
+    public function __toString()
+    {
+        return (string)$this->getOwner()->getFullName();
+    }
+
 }
