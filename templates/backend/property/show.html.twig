@@ -2,6 +2,11 @@
 
 {% block title %}Ver Propiedad{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css" />
+{% endblock %}
+
 {% block content_header %}
     <div class="row mb-2">
         <div class="col-sm-6">
@@ -11,7 +16,7 @@
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item">
                     {% if is_granted('ROLE_ADMIN') %}
-                        {{ include('backend/property/_delete_form.html.twig') }}
+{#                        {{ include('backend/property/_delete_form.html.twig') }}#}
                     {% endif %}
                 </li>
             </ol>
@@ -21,7 +26,7 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-8">
             <div class="card card-primary card-outline">
                 <div class="card-body box-profile">
                     <div class="text-center">
@@ -65,4 +70,45 @@
             </div>
         </div>
     </div>
+
+    <div class="compact-gallery">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Fotos</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="photos" data-url="{{ path('property_photo_reorder', {'id': property.id}) }}">
+                            {% for photo in property.photos|sort((a, b) => a.position <=> b.position) %}
+                                <div class="col-1 text-center" data-id="{{ photo.id }}">
+                                    <div class="card-body" >
+                                        <a  href="{{ vich_uploader_asset(photo, 'photo_file') }}" data-toggle="lightbox" data-gallery="example-gallery">
+                                            <img width="60px" class=" drag-handle" data-toggle="lightbox" data-id="{{ photo.id }}" src="{{ vich_uploader_asset(photo, 'photo_file') }}" alt="{{ photo.photoOriginalName }}" title="{{ photo.photoOriginalName }}">
+                                        </a>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p class="card-text"><a class="btn btn-danger" href="">Borrar</a></p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
+
+    <script>
+        baguetteBox.run('.compact-gallery', { animation: 'slideIn'});
+    </script>
 {% endblock %}

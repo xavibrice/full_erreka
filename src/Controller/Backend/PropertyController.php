@@ -2,10 +2,13 @@
 
 namespace App\Controller\Backend;
 
+use App\Entity\Photo;
 use App\Entity\Property;
 use App\Form\PropertyType;
 use App\Repository\PropertyRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -35,6 +38,13 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $images = $request->files->get("property")["photos"];
+            foreach ($images as $image) {
+                $photo = new Photo();
+                $photo->setPhotoFile($image);
+                $property->addPhoto($photo);
+            }
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($property);
             $entityManager->flush();
@@ -67,6 +77,13 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $images = $request->files->get("property")["photos"];
+            foreach ($images as $key => $image) {
+                $photo = new Photo();
+                $photo->setPhotoFile($image);
+                $property->addPhoto($photo);
+            }
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('property_index');
@@ -76,6 +93,36 @@ class PropertyController extends AbstractController
             'property' => $property,
             'form' => $form->createView(),
         ]);
+    }
+
+    /**
+     * @Route("/{id}/redorder", name="property_photo_reorder")
+     */
+    public function reorderPhoto(Request $request, Property $property, EntityManagerInterface $entityManager): Response
+    {
+        $orderedIds = json_decode($request->getContent(), true);
+
+        $orderedIds = array_flip($orderedIds);
+        foreach ($property->getPhotos() as $key => $image) {
+            $image->setPosition($orderedIds[$image->getId()]);
+        }
+        $entityManager->flush();
+
+        return new JsonResponse(
+            $property->getPhotos(),
+            200,
+            []
+        );
+
+    }
+
+    /**
+     * @Route("/{id}/fotos", name="property_photo_upload")
+     */
+    public function uploadPhoto(Request $request, Property $property): Response
+    {
+        dd($request->files->get('photos'));
+        dd('ok');
     }
 
     /**

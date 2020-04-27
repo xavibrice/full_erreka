@@ -2,10 +2,14 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
+ * @Vich\Uploadable()
  */
 class Property
 {
@@ -50,6 +54,16 @@ class Property
      * @ORM\Column(type="date")
      */
     private $created;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Photo", mappedBy="property", cascade={"persist"})
+     */
+    private $photos;
+
+    public function __construct()
+    {
+        $this->photos = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -143,6 +157,37 @@ class Property
     public function __toString()
     {
         return (string)$this->getOwner()->getFullName();
+    }
+
+    /**
+     * @return Collection|Photo[]
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos[] = $photo;
+            $photo->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photos->contains($photo)) {
+            $this->photos->removeElement($photo);
+            // set the owning side to null (unless already changed)
+            if ($photo->getProperty() === $this) {
+                $photo->setProperty(null);
+            }
+        }
+
+        return $this;
     }
 
 }

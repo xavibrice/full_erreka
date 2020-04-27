@@ -814,6 +814,11 @@
   dependencies:
     infer-owner "^1.0.4"
 
+"@popperjs/core@^2.3.3":
+  version "2.3.3"
+  resolved "https://registry.yarnpkg.com/@popperjs/core/-/core-2.3.3.tgz#8731722aeb7330e8fd9eb5d424be6b98dea7d6da"
+  integrity sha512-yEvVC8RfhRPkD9TUn7cFcLcgoJePgZRAOR7T21rcRY5I8tpuhzeWfGa7We7tB14fe9R7wENdqUABcMdwD4SQLw==
+
 "@sindresorhus/is@^0.14.0":
   version "0.14.0"
   resolved "https://registry.yarnpkg.com/@sindresorhus/is/-/is-0.14.0.tgz#9fb3a3cf3132328151f353de4632e01e52102bea"
@@ -1464,6 +1469,11 @@ babel-runtime@^6.11.6:
   dependencies:
     core-js "^2.4.0"
     regenerator-runtime "^0.11.0"
+
+baguettebox.js@^1.11.1:
+  version "1.11.1"
+  resolved "https://registry.yarnpkg.com/baguettebox.js/-/baguettebox.js-1.11.1.tgz#0a7f586e9e9bbfd3df1022a280fdcfcac6797fb7"
+  integrity sha512-0HnUVs+xaqwQOVbfi0kwZnZ1fJNWE5vJLCoCAtgQBtPmOJa1fhN8gubaBFOBGDkQy/vz6PWSr7B3WilhQKjyeQ==
 
 balanced-match@^1.0.0:
   version "1.0.0"
@@ -3725,6 +3735,11 @@ follow-redirects@^1.0.0:
   dependencies:
     debug "^3.0.0"
 
+fontawesome@^5.6.3:
+  version "5.6.3"
+  resolved "https://registry.yarnpkg.com/fontawesome/-/fontawesome-5.6.3.tgz#73f0b865fa2b0b384e69d531c05a02c643b72f95"
+  integrity sha512-FCc+CawwsJWWprVEg9X14yI7zI+l9YVAyhzgu70qwGeDn0tLLDH/dVfqgij72g4BBGgLGfK2qnvFGAmYUkhaWg==
+
 fontkit@^1.8.0:
   version "1.8.0"
   resolved "https://registry.yarnpkg.com/fontkit/-/fontkit-1.8.0.tgz#deb9351619e90ddc91707b6156a9f14c8ab11554"
@@ -4782,6 +4797,11 @@ jquery@>=1.10, jquery@>=1.12.0, jquery@>=1.7, jquery@>=1.8.3, jquery@>=2.1.0, jq
   resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.4.1.tgz#714f1f8d9dde4bdfa55764ba37ef214630d80ef2"
   integrity sha512-36+AdBzCL+y6qjw5Tx7HgzeGCzC81MDDgaUP8ld2zhx58HdqXGoBd+tHdrBMiyjGQs0Hxs/MLZTu/eHNJJuWPw==
 
+jquery@^3.5.0:
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/jquery/-/jquery-3.5.0.tgz#9980b97d9e4194611c36530e7dc46a58d7340fc9"
+  integrity sha512-Xb7SVYMvygPxbFMpTFQiHh1J7HClEaThguL15N/Gg37Lri/qKyhRGZYzHRyLH8Stq3Aow0LsHO2O2ci86fCrNQ==
+
 jqvmap-novulnerability@^1.5.1:
   version "1.5.1"
   resolved "https://registry.yarnpkg.com/jqvmap-novulnerability/-/jqvmap-novulnerability-1.5.1.tgz#140c42623ebbe9b9076ea2dd3b8d155fe9f38ae7"
@@ -5098,6 +5118,11 @@ magic-string@^0.22.4:
   integrity sha512-oreip9rJZkzvA8Qzk9HFs8fZGF/u7H/gtrE8EN6RjKJ9kh2HlC+yQ2QezifqTZfGyiuAV0dRv5a+y/8gBb1m9w==
   dependencies:
     vlq "^0.2.2"
+
+magnific-popup@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/magnific-popup/-/magnific-popup-1.1.0.tgz#3e7362c5bd18f6785fe99e59d013e20af33d3049"
+  integrity sha1-PnNixb0Y9nhf6Z5Z0BPiCvM9MEk=
 
 make-dir@^2.0.0:
   version "2.1.0"
@@ -7426,6 +7451,11 @@ socks@^2.3.3:
   dependencies:
     ip "1.1.5"
     smart-buffer "^4.1.0"
+
+sortablejs@^1.10.2:
+  version "1.10.2"
+  resolved "https://registry.yarnpkg.com/sortablejs/-/sortablejs-1.10.2.tgz#6e40364d913f98b85a14f6678f92b5c1221f5290"
+  integrity sha512-YkPGufevysvfwn5rfdlGyrGjt7/CRHwvRPogD/lC+TnvcN29jDpCifKP+rBqf+LRldfXSTh+0CGLcSg0VIxq3A==
 
 source-list-map@^2.0.0:
   version "2.0.1"
