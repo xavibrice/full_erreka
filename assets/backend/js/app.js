@@ -14,6 +14,10 @@ import '../css/app.css';
 // Need jQuery? Install it with "yarn add jquery", then uncomment to import it.
 //import $ from 'jquery';
 const $ = require('jquery');
+const routes = require('../../../public/js/fos_js_routes.json');
+import Routing from '../../../vendor/friendsofsymfony/jsrouting-bundle/Resources/public/js/router.min.js';
+
+Routing.setRoutingData(routes);
 
 $(function () {
     let el = document.getElementById('photos');
@@ -35,6 +39,24 @@ $(function () {
     }
 });
 
+$("#property_zone").change(function() {
+    const data = {
+        zone_id: $(this).val()
+    };
+
+    $.ajax({
+        type: 'post',
+        url: Routing.generate('street_by_zone'),
+        data: data,
+        success: function(data) {
+            const $street_selector = $('#property_street');
+            $street_selector.html('<option>Selecciona...</option>');
+            for (let i = 0, total = data.length; i < total; i++) {
+                $street_selector.append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
+            }
+        }
+    });
+});
 // $(document).on('click', '[data-toggle="lightbox"]', function(event) {
 //     event.preventDefault();
 //     $(this).ekkoLightbox();

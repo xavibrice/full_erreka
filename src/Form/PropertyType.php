@@ -5,6 +5,9 @@ namespace App\Form;
 use App\Entity\Agent;
 use App\Entity\Owner;
 use App\Entity\Property;
+use App\Entity\Street;
+use App\Form\EventListener\AddStreetFieldListener;
+use App\Form\EventListener\AddZoneFieldListener;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -36,6 +39,8 @@ class PropertyType extends AbstractType
                 'class' => Owner::class,
                 'placeholder' => 'Selecciona propietario',
             ])
+            ->addEventSubscriber(new AddZoneFieldListener())
+            ->addEventSubscriber(new AddStreetFieldListener())
             ->add('price', MoneyType::class, [
                 'label' => 'Precio',
             ])

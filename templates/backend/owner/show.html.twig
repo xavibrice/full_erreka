@@ -30,13 +30,13 @@
 
                     <h3 class="profile-username text-center">{{ owner.fullName }}</h3>
 
-                    <p class="text-muted text-center">{{ owner.fullName }}</p>
-
+                    <p class="text-muted text-center">Propiedades</p>
                     <ul class="list-group list-group-unbordered mb-3">
-                        <li class="list-group-item">
-                            <b>Propiedades</b>
-                            <a class="float-right">{{ owner.properties.count }}</a>
-                        </li>
+                        {% for property in owner.properties %}
+                            <li class="list-group-item">
+                                <a href="{{ path('property_show', {'id': property.id}) }}" class="">{{ property.portal }} {{ property.floor }}</a>
+                            </li>
+                        {% endfor %}
                     </ul>
 
                     <div class="btn-group">

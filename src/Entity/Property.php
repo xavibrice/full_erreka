@@ -60,6 +60,11 @@ class Property
      */
     private $photos;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Street", inversedBy="properties")
+     */
+    private $street;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
@@ -190,4 +195,15 @@ class Property
         return $this;
     }
 
+    public function getStreet(): ?Street
+    {
+        return $this->street;
+    }
+
+    public function setStreet(?Street $street): self
+    {
+        $this->street = $street;
+
+        return $this;
+    }
 }
