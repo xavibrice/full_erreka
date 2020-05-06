@@ -10,6 +10,7 @@ use App\Form\EventListener\AddStreetFieldListener;
 use App\Form\EventListener\AddZoneFieldListener;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
@@ -28,6 +29,11 @@ class PropertyType extends AbstractType
             ->add('created', DateType::class, [
                 'label' => 'Fecha creación',
                 'widget' => 'single_text'
+            ])
+            ->add('reason', ChoiceType::class, [
+                'label' => 'Motivo',
+                'choices' => $this->getChoices(),
+                'placeholder' => 'Selecciona motivo'
             ])
             ->add('agent', EntityType::class, [
                 'label' => 'Agente',
@@ -54,6 +60,7 @@ class PropertyType extends AbstractType
                 'label' => 'Comentario',
             ])
             ->add('photos', FileType::class, [
+                'label' => 'Fotos',
                 'mapped' => false,
                 'required' => false,
                 'multiple' => true,
@@ -70,5 +77,16 @@ class PropertyType extends AbstractType
         $resolver->setDefaults([
             'data_class' => Property::class,
         ]);
+    }
+
+    private function getChoices()
+    {
+        $choices = Property::SELL_OR_RENT;
+        $output = [];
+        foreach ($choices as $k => $v) {
+            $output[$v] = $k;
+        }
+
+        return $output;
     }
 }

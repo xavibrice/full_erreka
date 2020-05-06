@@ -24,6 +24,7 @@ class AddZoneFieldListener implements EventSubscriberInterface
     private function addZoneForm($form, $zone = null)
     {
         $formOptions = [
+            'label' => 'Zona',
             'class' => Zone::class,
             'placeholder' => 'Selecciona zona',
             'mapped' => false,

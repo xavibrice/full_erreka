@@ -13,6 +13,12 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Property
 {
+
+    const SELL_OR_RENT = [
+        0 => 'Venta',
+        1 => 'Alquiler',
+    ];
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -64,6 +70,11 @@ class Property
      * @ORM\ManyToOne(targetEntity="App\Entity\Street", inversedBy="properties")
      */
     private $street;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $reason;
 
     public function __construct()
     {
@@ -203,6 +214,18 @@ class Property
     public function setStreet(?Street $street): self
     {
         $this->street = $street;
+
+        return $this;
+    }
+
+    public function getReason(): ?int
+    {
+        return $this->reason;
+    }
+
+    public function setReason(int $reason): self
+    {
+        $this->reason = $reason;
 
         return $this;
     }

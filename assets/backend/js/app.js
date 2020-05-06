@@ -50,7 +50,7 @@ $("#property_zone").change(function() {
         data: data,
         success: function(data) {
             const $street_selector = $('#property_street');
-            $street_selector.html('<option>Selecciona...</option>');
+            $street_selector.html('<option>Selecciona calle</option>');
             for (let i = 0, total = data.length; i < total; i++) {
                 $street_selector.append('<option value="' + data[i].id + '">' + data[i].name + '</option>');
             }

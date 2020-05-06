@@ -29,7 +29,7 @@ class PropertyController extends AbstractController
     }
 
     /**
-     * @Route("/new", name="property_new", methods={"GET","POST"})
+     * @Route("/nueva", name="property_new", methods={"GET","POST"})
      */
     public function new(Request $request): Response
     {
@@ -69,7 +69,7 @@ class PropertyController extends AbstractController
     }
 
     /**
-     * @Route("/{id}/edit", name="property_edit", methods={"GET","POST"})
+     * @Route("/{id}/editar", name="property_edit", methods={"GET","POST"})
      */
     public function edit(Request $request, Property $property): Response
     {
