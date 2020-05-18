@@ -13,7 +13,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
  */
 class Property
 {
-
     const SELL_OR_RENT = [
         0 => 'Venta',
         1 => 'Alquiler',
@@ -75,6 +74,21 @@ class Property
      * @ORM\Column(type="integer")
      */
     private $reason;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $url;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $reference;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PropertyType", inversedBy="properties")
+     */
+    private $property_type;
 
     public function __construct()
     {
@@ -226,6 +240,42 @@ class Property
     public function setReason(int $reason): self
     {
         $this->reason = $reason;
+
+        return $this;
+    }
+
+    public function getUrl(): ?string
+    {
+        return $this->url;
+    }
+
+    public function setUrl(?string $url): self
+    {
+        $this->url = $url;
+
+        return $this;
+    }
+
+    public function getReference(): ?string
+    {
+        return $this->reference;
+    }
+
+    public function setReference(string $reference): self
+    {
+        $this->reference = $reference;
+
+        return $this;
+    }
+
+    public function getPropertyType(): ?PropertyType
+    {
+        return $this->property_type;
+    }
+
+    public function setPropertyType(?PropertyType $property_type): self
+    {
+        $this->property_type = $property_type;
 
         return $this;
     }

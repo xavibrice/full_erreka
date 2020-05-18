@@ -33,11 +33,21 @@ class PropertyController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        $em = $this->getDoctrine()->getManager();
+        $lastReference = $em->getRepository(Property::class)->findOneBy([], ['id' => 'desc']);
+
+        if ($lastReference) {
+            $newReference = $lastReference->getReference() + 1;
+        } else {
+            $newReference = 1;
+        }
+
         $property = new Property();
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $property->setReference($newReference);
             $images = $request->files->get("property")["photos"];
             foreach ($images as $image) {
                 $photo = new Photo();
@@ -49,7 +59,9 @@ class PropertyController extends AbstractController
             $entityManager->persist($property);
             $entityManager->flush();
 
-            return $this->redirectToRoute('property_index');
+            return $this->redirectToRoute('property_show', [
+                'id' => $property->getId(),
+            ]);
         }
 
         return $this->render('backend/property/new.html.twig', [
@@ -86,7 +98,9 @@ class PropertyController extends AbstractController
 
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('property_index');
+            return $this->redirectToRoute('property_show', [
+                'id' => $property->getId(),
+            ]);
         }
 
         return $this->render('backend/property/edit.html.twig', [

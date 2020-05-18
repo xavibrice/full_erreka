@@ -7,6 +7,8 @@
 import 'bootstrap/dist/js/bootstrap.min';
 import 'admin-lte/dist/js/adminlte.min';
 import Sortable from 'sortablejs';
+import moment from "moment";
+import 'eonasdan-bootstrap-datetimepicker-bootstrap4beta';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import '../css/app.css';
@@ -62,4 +64,29 @@ $("#property_zone").change(function() {
 //     $(this).ekkoLightbox();
 // });
 
+$.extend(true, $.fn.datetimepicker.defaults, {
+    icons: {
+        time: 'far fa-clock',
+        date: 'far fa-calendar',
+        up: 'fas fa-arrow-up',
+        down: 'fas fa-arrow-down',
+        previous: 'fas fa-chevron-left',
+        next: 'fas fa-chevron-right',
+        today: 'fas fa-calendar-check',
+        clear: 'far fa-trash-alt',
+        close: 'far fa-times-circle'
+    }
+});
+
+$(document).ready(function () {
+    $('.js-datepicker').datetimepicker({
+        format: moment().format('L'),
+        locale: 'es',
+    });
+
+    $(".js-datepicker-empty").datetimepicker({
+        format: moment().format('L'),
+        locale: 'es',
+    });
+});
 console.log('Hello Webpack Encore! Edit me in assets/js/app.js');

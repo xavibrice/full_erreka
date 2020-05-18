@@ -41,7 +41,7 @@
                             <tr>
                                 <td>{{ property.id }}</td>
                                 <td>{{ property.created ? property.created|date('d-m-Y') : '' }}</td>
-                                <td>{{ property.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</td>
+                                <td>{{ property.price|format_currency('EUR') }}</td>
                                 <td>{{ property.portal }}</td>
                                 <td>{{ property.floor }}</td>
                                 <td>{{ property.comment|truncate }}</td>

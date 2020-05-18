@@ -8,6 +8,7 @@ use App\Entity\Property;
 use App\Entity\Street;
 use App\Form\EventListener\AddStreetFieldListener;
 use App\Form\EventListener\AddZoneFieldListener;
+use App\Form\Type\DatePickerType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -25,15 +26,32 @@ class PropertyType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $property = $options['data'] ?? null;
+        $isEdit = $property && $property->getId();
+
+        if ($isEdit) {
+            $date = 'js-datepicker-empty';
+        } else {
+            $date = 'js-datepicker';
+        }
+
         $builder
-            ->add('created', DateType::class, [
+            ->add('created', DatePickerType::class, [
+                'required' => true,
                 'label' => 'Fecha creación',
-                'widget' => 'single_text'
+                'data' => new \DateTime(),
+                'attr' => [
+                    'class' => $date,
+                ],
             ])
             ->add('reason', ChoiceType::class, [
                 'label' => 'Motivo',
                 'choices' => $this->getChoices(),
                 'placeholder' => 'Selecciona motivo'
+            ])
+            ->add('propertyType', EntityType::class, [
+                'label' => 'Tipo propiedad',
+                'class' => \App\Entity\PropertyType::class
             ])
             ->add('agent', EntityType::class, [
                 'label' => 'Agente',

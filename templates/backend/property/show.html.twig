@@ -26,46 +26,60 @@
 
 {% block content %}
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Detalles {{ property.id }}</h3>
+                </div>
                 <div class="card-body box-profile">
-                    <div class="text-center">
-                        {#                        <img class="profile-user-img img-fluid img-circle" src="{{ vich_uploader_asset(agent, 'thumbnailFile') }}" alt="{{ agent.thumbnail }}">#}
-                    </div>
-
-                    <table class="table">
+                    <table class="table table-striped">
                         <tbody>
-                            <tr>
-                                <th>Id</th>
-                                <td>{{ property.id }}</td>
-                            </tr>
-                            <tr>
-                                <th>Precio</th>
-                                <td>{{ property.price|format_currency('EUR') }}</td>
-                            </tr>
-                            <tr>
-                                <th>Portal</th>
-                                <td>{{ property.portal }}</td>
-                            </tr>
-                            <tr>
-                                <th>Piso</th>
-                                <td>{{ property.floor }}</td>
-                            </tr>
-                            <tr>
-                                <th>Comentario</th>
-                                <td>{{ property.comment }}</td>
-                            </tr>
                             <tr>
                                 <th>Creado</th>
                                 <td>{{ property.created ? property.created|date('d-m-Y') : '' }}</td>
+                                <th>Agente</th>
+                                <td>{{ property.agent.fullName }}</td>
+                                <th>Motivo</th>
+                                <td>{{ property.reason == 0 ? 'Venta' : 'Alquiler' }}</td>
+                                <th>Tipo Propiedad</th>
+                                <td>{{ property.propertyType.name }}</td>
+                                <th>Referencia</th>
+                                <td>{{ property.reference }}</td>
+                            </tr>
+                            <tr>
+                                <th>Zona</th>
+                                <td>{{ property.street.zone.name }}</td>
+                                <th>Calle</th>
+                                <td colspan="7">{{ property.street.name }} Nº {{ property.portal }}, {{ property.floor }}</td>
+                            </tr>
+                            <tr>
+                                <th>Precio</th>
+                                <td colspan="9">{{ property.price|format_currency('EUR') }}</td>
+                            </tr>
+                            <tr>
+                                <th>Propietario</th>
+                                <td>{{ property.owner.fullName }}</td>
+                                <th>Móvil</th>
+                                <td>{{ property.owner.mobile }}</td>
+                                <th>Teléfono</th>
+                                <td>{{ property.owner.telephone }}</td>
+                                <th>Correo</th>
+                                <td>{{ property.owner.email }}</td>
+                            </tr>
+                            <tr>
+                                <th>URL</th>
+                                <td colspan="9"><a target="_blank" href="{{ property.url }}">{{ property.url }}</a></td>
+                            </tr>
+                            <tr>
+                                <th>Comentario</th>
+                                <td colspan="9">{{ property.comment }}</td>
                             </tr>
                         </tbody>
                     </table>
-
+                </div>
+                <div class="card-footer">
                     <a class="btn btn-link" href="{{ path('property_index') }}">Volver a la lista</a>
-
                     <a class="btn btn-info" href="{{ path('property_edit', {'id': property.id}) }}">Editar</a>
-
                 </div>
             </div>
         </div>
@@ -93,14 +107,41 @@
                                     </div>
                                 </div>
                             {% endfor %}
-
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <h1>Crear Nota</h1>
+        </div>
+        <div class="col-md-8">
+            <div class="timeline">
+                <div>
+                    <i class="fas fa-user bg-green"></i>
+                    <div class="timeline-item">
+                        <span class="time"><i class="fas fa-clock"></i> 12:05</span>
+                        <h3 class="timeline-header"><a href="#">Support Team</a> sent you an email</h3>
+
+                        <div class="timeline-body">
+                            Etsy doostang zoodles disqus groupon greplin oooj voxy zoodles,
+                            weebly ning heekya handango imeem plugg dopplr jibjab, movity
+                            jajah plickers sifteo edmodo ifttt zimbra. Babblely odeo kaboodle
+                            quora plaxo ideeli hulu weebly balihoo...
+                        </div>
+                        <div class="timeline-footer">
+                            <a class="btn btn-primary btn-sm">Editar</a>
+                            <a class="btn btn-danger btn-sm">Eliminar</a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
     </div>
 {% endblock %}
 
