@@ -5,22 +5,19 @@ namespace App\Form;
 use App\Entity\Agent;
 use App\Entity\Owner;
 use App\Entity\Property;
-use App\Entity\Street;
 use App\Form\EventListener\AddStreetFieldListener;
 use App\Form\EventListener\AddZoneFieldListener;
 use App\Form\Type\DatePickerType;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\File;
-use Symfony\Component\Validator\Constraints\Image;
 
 class PropertyType extends AbstractType
 {
@@ -49,22 +46,35 @@ class PropertyType extends AbstractType
                 'choices' => $this->getChoices(),
                 'placeholder' => 'Selecciona motivo'
             ])
+            ->addEventSubscriber(new AddZoneFieldListener())
+            ->addEventSubscriber(new AddStreetFieldListener())
             ->add('propertyType', EntityType::class, [
                 'label' => 'Tipo propiedad',
-                'class' => \App\Entity\PropertyType::class
+                'class' => \App\Entity\PropertyType::class,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('pt')
+                        ->orderBy('pt.name', 'ASC');
+                },
+                'placeholder' => 'Selecciona propiedad'
             ])
             ->add('agent', EntityType::class, [
                 'label' => 'Agente',
                 'class' => Agent::class,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('a')
+                        ->orderBy('a.full_name', 'ASC');
+                },
                 'placeholder' => 'Selecciona agente',
             ])
             ->add('owner', EntityType::class, [
                 'label' => 'Propietario',
                 'class' => Owner::class,
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('o')
+                        ->orderBy('o.full_name', 'ASC');
+                },
                 'placeholder' => 'Selecciona propietario',
             ])
-            ->addEventSubscriber(new AddZoneFieldListener())
-            ->addEventSubscriber(new AddStreetFieldListener())
             ->add('price', MoneyType::class, [
                 'label' => 'Precio',
             ])

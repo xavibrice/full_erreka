@@ -1,0 +1,22 @@
+<div class="row mb-2">
+    <div class="col-sm-2">
+        <h1 class="m-0 text-dark">Propiedad</h1>
+    </div>
+    <div class="col-sm-10">
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item">
+                {% set route_name = app.request.attributes.get('_route') %}
+                <a class="btn btn-primary {% if route_name == 'property_show' %}active{% endif %}" href="{{ path('property_show', {'id': property.id}) }}">Detalles</a>
+                <a class="btn btn-primary" href="#">Valoración</a>
+                <a class="btn btn-primary" href="#">Exclusivas</a>
+                <a class="btn btn-primary" href="#">Clientes</a>
+                <a class="btn btn-primary {% if route_name == 'property_visit' %}active{% endif %}" href="{{ path('property_visit', {'id': property.id}) }}">Visitas</a>
+                <a class="btn btn-primary" href="#">Rebajas</a>
+                <a class="btn btn-primary" href="#">Propuestas</a>
+                {% if is_granted('ROLE_ADMIN') %}
+                    {#                        {{ include('backend/property/_delete_form.html.twig') }}#}
+                {% endif %}
+            </li>
+        </ol>
+    </div>
+</div>

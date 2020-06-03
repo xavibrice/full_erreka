@@ -43,6 +43,22 @@ class Client
      */
     private $agent;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PropertyNote", mappedBy="client")
+     */
+    private $propertyNotes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Visit", mappedBy="client")
+     */
+    private $visits;
+
+    public function __construct()
+    {
+        $this->propertyNotes = new ArrayCollection();
+        $this->visits = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -104,6 +120,73 @@ class Client
     public function setAgent(?Agent $agent): self
     {
         $this->agent = $agent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PropertyNote[]
+     */
+    public function getPropertyNotes(): Collection
+    {
+        return $this->propertyNotes;
+    }
+
+    public function addPropertyNote(PropertyNote $propertyNote): self
+    {
+        if (!$this->propertyNotes->contains($propertyNote)) {
+            $this->propertyNotes[] = $propertyNote;
+            $propertyNote->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removePropertyNote(PropertyNote $propertyNote): self
+    {
+        if ($this->propertyNotes->contains($propertyNote)) {
+            $this->propertyNotes->removeElement($propertyNote);
+            // set the owning side to null (unless already changed)
+            if ($propertyNote->getClient() === $this) {
+                $propertyNote->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return (string)$this->full_name;
+    }
+
+    /**
+     * @return Collection|Visit[]
+     */
+    public function getVisits(): Collection
+    {
+        return $this->visits;
+    }
+
+    public function addVisit(Visit $visit): self
+    {
+        if (!$this->visits->contains($visit)) {
+            $this->visits[] = $visit;
+            $visit->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVisit(Visit $visit): self
+    {
+        if ($this->visits->contains($visit)) {
+            $this->visits->removeElement($visit);
+            // set the owning side to null (unless already changed)
+            if ($visit->getClient() === $this) {
+                $visit->setClient(null);
+            }
+        }
 
         return $this;
     }

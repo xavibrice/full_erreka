@@ -21,6 +21,7 @@
                     {{ include('backend/owner/_form.html.twig', {'button_label': 'Actualizar'}) }}
                 </div>
                 <div class="card-footer">
+                    <a class="btn btn-primary" href="{{ path('owner_show', {'id': owner.id}) }}">Ver propietario</a>
                     <a class="btn btn-link" href="{{ path('owner_index') }}">Volver a la lista</a>
                 </div>
             </div>

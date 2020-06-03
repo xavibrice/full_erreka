@@ -2,14 +2,12 @@
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="App\Repository\PropertyNoteRepository")
+ * @ORM\Entity(repositoryClass="App\Repository\VisitRepository")
  */
-class PropertyNote
+class Visit
 {
     /**
      * @ORM\Id()
@@ -24,24 +22,19 @@ class PropertyNote
     private $created;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    private $comment;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="propertyNotes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="visits")
      */
     private $client;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Property", inversedBy="propertyNotes")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Property", inversedBy="visits")
      */
     private $property;
 
     /**
-     * @ORM\Column(type="date", nullable=true)
+     * @ORM\Column(type="text")
      */
-    private $next_call;
+    private $comment;
 
     public function getId(): ?int
     {
@@ -56,18 +49,6 @@ class PropertyNote
     public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
-
-        return $this;
-    }
-
-    public function getComment(): ?string
-    {
-        return $this->comment;
-    }
-
-    public function setComment(string $comment): self
-    {
-        $this->comment = $comment;
 
         return $this;
     }
@@ -96,14 +77,14 @@ class PropertyNote
         return $this;
     }
 
-    public function getNextCall(): ?\DateTimeInterface
+    public function getComment(): ?string
     {
-        return $this->next_call;
+        return $this->comment;
     }
 
-    public function setNextCall(?\DateTimeInterface $next_call): self
+    public function setComment(string $comment): self
     {
-        $this->next_call = $next_call;
+        $this->comment = $comment;
 
         return $this;
     }

@@ -90,9 +90,27 @@ class Property
      */
     private $property_type;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PropertyNote", mappedBy="property")
+     */
+    private $propertyNotes;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Visit", mappedBy="property")
+     */
+    private $visits;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\PropertyDiscount", mappedBy="property")
+     */
+    private $propertyDiscounts;
+
     public function __construct()
     {
         $this->photos = new ArrayCollection();
+        $this->propertyNotes = new ArrayCollection();
+        $this->visits = new ArrayCollection();
+        $this->propertyDiscounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -276,6 +294,99 @@ class Property
     public function setPropertyType(?PropertyType $property_type): self
     {
         $this->property_type = $property_type;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PropertyNote[]
+     */
+    public function getPropertyNotes(): Collection
+    {
+        return $this->propertyNotes;
+    }
+
+    public function addPropertyNote(PropertyNote $propertyNote): self
+    {
+        if (!$this->propertyNotes->contains($propertyNote)) {
+            $this->propertyNotes[] = $propertyNote;
+            $propertyNote->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removePropertyNote(PropertyNote $propertyNote): self
+    {
+        if ($this->propertyNotes->contains($propertyNote)) {
+            $this->propertyNotes->removeElement($propertyNote);
+            // set the owning side to null (unless already changed)
+            if ($propertyNote->getProperty() === $this) {
+                $propertyNote->setProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Visit[]
+     */
+    public function getVisits(): Collection
+    {
+        return $this->visits;
+    }
+
+    public function addVisit(Visit $visit): self
+    {
+        if (!$this->visits->contains($visit)) {
+            $this->visits[] = $visit;
+            $visit->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeVisit(Visit $visit): self
+    {
+        if ($this->visits->contains($visit)) {
+            $this->visits->removeElement($visit);
+            // set the owning side to null (unless already changed)
+            if ($visit->getProperty() === $this) {
+                $visit->setProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|PropertyDiscount[]
+     */
+    public function getPropertyDiscounts(): Collection
+    {
+        return $this->propertyDiscounts;
+    }
+
+    public function addPropertyDiscount(PropertyDiscount $propertyDiscount): self
+    {
+        if (!$this->propertyDiscounts->contains($propertyDiscount)) {
+            $this->propertyDiscounts[] = $propertyDiscount;
+            $propertyDiscount->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removePropertyDiscount(PropertyDiscount $propertyDiscount): self
+    {
+        if ($this->propertyDiscounts->contains($propertyDiscount)) {
+            $this->propertyDiscounts->removeElement($propertyDiscount);
+            // set the owning side to null (unless already changed)
+            if ($propertyDiscount->getProperty() === $this) {
+                $propertyDiscount->setProperty(null);
+            }
+        }
 
         return $this;
     }
