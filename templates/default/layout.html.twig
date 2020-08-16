@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    {{ encore_entry_link_tags('app') }}
+{% endblock %}
+
+{% block body_class 'hold-transition sidebar-mini' %}
+
+{% block body %}
+    <!-- Site wrapper -->
+    <div class="wrapper">
+        {{ include('includes/_menu.html.twig') }}
+
+        <!-- Content Wrapper. Contains page content -->
+        <div class="content-wrapper">
+            <!-- Content Header (Page header) -->
+            <div class="content-header">
+                <div class="container-fluid">
+                    {% block content_header %}{% endblock %}
+                </div><!-- /.container-fluid -->
+            </div>
+            <!-- /.content-header -->
+
+            <!-- Main content -->
+            <div class="content">
+                <div class="container-fluid">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+            <!-- /.Main content -->
+        </div>
+
+        <!-- Control Sidebar -->
+        {{ include('includes/_control_sidebar.html.twig') }}
+        <!-- /.Control-sidebar -->
+
+        <!-- Control Footer -->
+        {{ include('includes/_footer.html.twig') }}
+        <!-- Control Footer -->
+    </div>
+    <!-- ./wrapper -->
+{% endblock %}
+
+{% block javascripts %}
+    {{ encore_entry_script_tags('app') }}
+{% endblock %}

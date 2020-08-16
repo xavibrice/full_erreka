@@ -1,0 +1,164 @@
+{% extends 'default/layout.html.twig' %}
+
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block title %}Ver Propiedad{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.css" />
+{% endblock %}
+
+{% block content_header %}
+    {% include 'property/_content_header.html.twig' %}
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card card-primary card-outline">
+                <div class="card-header">
+                    <h3 class="card-title">Detalles - {{ property.id }}</h3>
+                </div>
+                <div class="card-body box-profile">
+                    <div class="table-responsive">
+                        <table class="table table-striped">
+                            <tbody>
+                            <tr>
+                                <th class="text-right">Creado</th>
+                                <td>{{ property.created ? property.created|date('d-m-Y') : '' }}</td>
+                                <th class="text-right">Agente</th>
+                                <td>{{ property.agent.fullName }}</td>
+                                <th class="text-right">Motivo</th>
+                                <td>{{ property.reason == 0 ? 'Venta' : 'Alquiler' }}</td>
+                                <th class="text-right">Tipo Propiedad</th>
+                                <td>{{ property.propertyType.name }}</td>
+                                <th class="text-right">Referencia</th>
+                                <td>{{ property.reference }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right">Zona</th>
+                                <td>{{ property.street.zone.name }}</td>
+                                <th class="text-right">Calle</th>
+                                <td colspan="7">{{ property.street.name }} Nº {{ property.portal }}, {{ property.floor }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right">Precio</th>
+                                <td colspan="9">{{ property.price|format_currency('EUR') }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right">Propietario</th>
+                                <td>{{ property.owner.fullName }}</td>
+                                <th class="text-right">Móvil</th>
+                                <td>{{ property.owner.mobile }}</td>
+                                <th class="text-right">Teléfono</th>
+                                <td>{{ property.owner.telephone }}</td>
+                                <th class="text-right">Correo</th>
+                                <td>{{ property.owner.email }}</td>
+                            </tr>
+                            <tr>
+                                <th class="text-right">URL</th>
+                                <td colspan="9"><a target="_blank" href="{{ property.url }}">{{ property.url }}</a></td>
+                            </tr>
+                            <tr>
+                                <th class="text-right">Comentario</th>
+                                <td colspan="9">{{ property.comment }}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-link" href="{{ path('property_index') }}">Volver a la lista</a>
+                    <div class="btn-group">
+                        <a class="btn btn-primary" href="{{ path('owner_show', {'id': property.owner.id}) }}">Ver propietario</a>
+                        <a class="btn btn-info" href="{{ path('property_edit', {'id': property.id}) }}">Editar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="compact-gallery">
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Fotos</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="row" id="photos" data-url="{{ path('property_photo_reorder', {'id': property.id}) }}">
+                            {% for photo in property.photos|sort((a, b) => a.position <=> b.position) %}
+                                <div class="col-1 text-center" data-id="{{ photo.id }}">
+                                    <div class="card-body" >
+                                        <a href="{{ vich_uploader_asset(photo, 'photo_file') }}" data-toggle="lightbox" data-gallery="example-gallery">
+                                            <img width="60px" class=" drag-handle" data-toggle="lightbox" data-id="{{ photo.id }}" src="{{ vich_uploader_asset(photo, 'photo_file') }}" alt="{{ photo.photoOriginalName }}" title="{{ photo.photoOriginalName }}">
+                                        </a>
+                                    </div>
+                                    <div class="card-footer">
+                                        <p class="card-text"><a class="btn btn-danger" href="{{ path('property_image_delete', {'id': photo.id}) }}">Borrar</a></p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Crear Nota</h3>
+                </div>
+                <div class="card-body">
+                    {{ include('property/_form.html.twig') }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">{{ propertyNotes|length }} Notas</h3>
+                </div>
+                <div class="card-body">
+                    <div class="timeline">
+                        {% for propertyNote in propertyNotes %}
+                            <div class="time-label">
+                                <span class="bg-info">{{ propertyNote.nextCall ? propertyNote.nextCall|date('d-m-Y') : 'No hay fecha proxima llamada' }}</span>
+                            </div>
+                            <div>
+                                <i class="fas fa-user bg-green"></i>
+                                <div class="timeline-item">
+                                    <span class="time"><i class="fas fa-calendar"></i> {{ propertyNote.created ? propertyNote.created|date('d-m-Y') : '' }}</span>
+                                    <h3 class="timeline-header"><a href="#">{{ propertyNote.client.fullName }}</a> dice:</h3>
+
+                                    <div class="timeline-body">
+                                        {{ propertyNote.comment }}
+                                    </div>
+                                    <div class="timeline-footer">
+                                        <a class="btn btn-primary btn-sm">Editar</a>
+                                        <a class="btn btn-danger btn-sm">Eliminar</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/baguettebox.js/1.11.1/baguetteBox.min.js"></script>
+
+    <script>
+        baguetteBox.run('.compact-gallery', { animation: 'slideIn'});
+    </script>
+{% endblock %}

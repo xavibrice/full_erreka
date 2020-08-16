@@ -35,7 +35,7 @@ class AddStreetFieldListener implements EventSubscriberInterface
                     ->setParameter('zone', $zone_id)
                 ;
             },
-            'placeholder' => 'Selecciona calle',
+            'placeholder' => 'Selecciona primero zona',
         ];
         $form->add('street', EntityType::class, $formOptions);
     }

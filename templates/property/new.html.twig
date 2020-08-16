@@ -1,0 +1,29 @@
+{% extends 'default/layout.html.twig' %}
+
+{% block title %}Nueva Propiedad{% endblock %}
+
+{% block content_header %}
+    <div class="row mb-2">
+        <div class="col-xl-12">
+            <h1 class="m-0 text-dark">Propiedad</h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row d-flex justify-content-center">
+        <div class="col-xl-8">
+            <div class="card card-primary card-outline card-columns">
+                <div class="card-header">
+                    <h3 class="card-title">Crear propiedad</h3>
+                </div>
+                <div class="card-body">
+                    {{ include('property/_form.html.twig') }}
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-link" href="{{ path('property_index') }}">Volver a la lista</a>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

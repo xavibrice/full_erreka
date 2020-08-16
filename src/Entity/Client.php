@@ -53,6 +53,16 @@ class Client
      */
     private $visits;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $nationality;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\PropertyType", inversedBy="clients")
+     */
+    private $property_type;
+
     public function __construct()
     {
         $this->propertyNotes = new ArrayCollection();
@@ -187,6 +197,30 @@ class Client
                 $visit->setClient(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getNationality(): ?string
+    {
+        return $this->nationality;
+    }
+
+    public function setNationality(?string $nationality): self
+    {
+        $this->nationality = $nationality;
+
+        return $this;
+    }
+
+    public function getPropertyType(): ?PropertyType
+    {
+        return $this->property_type;
+    }
+
+    public function setPropertyType(?PropertyType $property_type): self
+    {
+        $this->property_type = $property_type;
 
         return $this;
     }

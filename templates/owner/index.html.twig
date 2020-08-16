@@ -1,0 +1,64 @@
+{% extends 'default/layout.html.twig' %}
+
+{% block title %}Listado Propietarios{% endblock %}
+
+{% block content_header %}
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0 text-dark">Propietarios</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a class="btn btn-primary" href="{{ path('owner_new') }}">Crear propietario</a></li>
+            </ol>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <!-- Default box -->
+            <div class="card card-primary card-outline card-columns">
+                <div class="card-header">
+                    <h3 class="card-title">Listado Propietarios</h3>
+                </div>
+                <div class="card-body table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nombre completo</th>
+                            <th>Correo</th>
+                            <th>Móvil</th>
+                            <th>Teléfono</th>
+                            <th>Acciones</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for owner in owners %}
+                            <tr>
+                                <td>{{ owner.id }}</td>
+                                <td>{{ owner.fullName }}</td>
+                                <td>{{ owner.email }}</td>
+                                <td>{{ owner.mobile }}</td>
+                                <td>{{ owner.telephone }}</td>
+                                <td>
+                                    <div class="btn-group">
+                                        <a class="btn btn-secondary" href="{{ path('owner_show', {'id': owner.id}) }}">Ver</a>
+                                        <a class="btn btn-info" href="{{ path('owner_edit', {'id': owner.id}) }}">Editar</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="6">no records found</td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

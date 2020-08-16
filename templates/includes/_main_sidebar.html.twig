@@ -1,0 +1,30 @@
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    <a href="" class="brand-link">
+        <img src="{{ asset('build/static_backend/logo-erreka.jpg') }}" alt="Erreka Logo" class="brand-image img-circle elevation-3"
+             style="opacity: .8">
+        <span class="brand-text font-weight-light">Erreka 1.0</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                {% if app.user.thumbnailName %}
+                    <img class="img-size-50" src="{{ vich_uploader_asset(app.user, 'thumbnailFile') }}" alt="{{ app.user.thumbnailName }}">
+                {% else %}
+                    <img src="{{ asset('build/static_backend/agent.png') }}" class="img-circle elevation-2" alt="User Image">
+                {% endif %}
+            </div>
+            <div class="info">
+                <a href="{{ path('agent_show', {'slug': app.user.slug }) }}" class="d-block">{{ app.user.fullName }}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        {{ include('includes/_sidebar_menu.html.twig') }}
+        <!-- /.sidebar-menu -->
+    </div>
+    <!-- /.sidebar -->
+</aside>
